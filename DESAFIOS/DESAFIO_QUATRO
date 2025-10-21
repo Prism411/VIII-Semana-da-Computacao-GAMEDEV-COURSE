@@ -1,0 +1,52 @@
+import pygame
+import sys
+
+pygame.init()
+screen = pygame.display.set_mode((400, 300))
+pygame.display.set_caption("Colisão com Bordas")
+clock = pygame.time.Clock()
+
+quadrado_x = 175
+quadrado_y = 125
+tamanho = 50  # NOVO: Guardar o tamanho
+velocidade = 5
+
+running = True
+while running:
+    clock.tick(60)
+    
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    
+    teclas = pygame.key.get_pressed()
+    
+    # Move o quadrado
+    if teclas[pygame.K_LEFT]:
+        quadrado_x -= velocidade
+    if teclas[pygame.K_RIGHT]:
+        quadrado_x += velocidade
+    if teclas[pygame.K_UP]:
+        quadrado_y -= velocidade
+    if teclas[pygame.K_DOWN]:
+        quadrado_y += velocidade
+    
+    # NOVO: Limitar posição dentro da tela
+    # Não pode ser menor que 0
+    if quadrado_x < 0:
+        quadrado_x = 0
+    # Não pode ser maior que largura da tela - tamanho do quadrado
+    if quadrado_x > 400 - tamanho:
+        quadrado_x = 400 - tamanho
+    # Mesma lógica para Y
+    if quadrado_y < 0:
+        quadrado_y = 0
+    if quadrado_y > 300 - tamanho:
+        quadrado_y = 300 - tamanho
+    
+    screen.fill((50, 50, 50))
+    pygame.draw.rect(screen, (255, 0, 0), (quadrado_x, quadrado_y, tamanho, tamanho))
+    pygame.display.flip()
+
+pygame.quit()
+sys.exit()
